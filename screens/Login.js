@@ -68,7 +68,13 @@ const Login = () => {
                                 hidePassword={hidePassword}
                                 sethidePassword={sethidePassword}
                             />
-                            
+                            <MsgBox>...</MsgBox>
+                            <StyledButton onPress={handleSubmit}>
+                                <ButtonText>
+                                    Login
+                                </ButtonText>
+                            </StyledButton>
+                            <Line/>
                         </StyledFormArea>
                     )}
 
