@@ -22,7 +22,11 @@ import {
     ButtonText, 
     Colors,
     MsgBox,
-    Line
+    Line,
+    ExtraView,
+    ExtraText,
+    TextLink,
+    TextLinkContent
 } from "./../components/styles";
 import { View } from "react-native";
 
@@ -81,6 +85,12 @@ const Login = () => {
                                     Sign in with Google
                                 </ButtonText>
                             </StyledButton>
+                            <ExtraView>
+                                <ExtraText>Don't have an account already?</ExtraText>
+                                <TextLink>
+                                    <TextLinkContent> Signup</TextLinkContent>
+                                </TextLink>
+                            </ExtraView>
                         </StyledFormArea>
                     )}
 
