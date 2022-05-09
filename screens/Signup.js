@@ -1,11 +1,11 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 // formik
 import { Formik } from 'formik';
 
 // icons
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
+import { Octicons, Ionicons } from '@expo/vector-icons';
 
 import { 
     StyledContainer, 
@@ -16,6 +16,8 @@ import {
     LeftIcon, 
     StyledInputLabel, 
     StyledTextInput, 
+    StyledButtonInput, 
+    StyledButtonTextInput,
     RightIcon, 
     StyledButton, 
     ButtonText, 
@@ -27,12 +29,45 @@ import {
     TextLink,
     TextLinkContent
 } from "./../components/styles";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
+// colors
 const { brand, darkLight, primary } = Colors;
 
+// dateTimePicker
+// import DateTimePicker from '@react-native-community/datetimepicker';
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+
 const Signup = () => {
-    const [hidePassword, sethidePassword] = useState(true)
+    const [hidePassword, setHidePassword] = useState(true)
+
+    // const [show, setShow] = useState(false);
+
+    // // actual date of birth to be sent
+    const [dob, setDob] = useState();
+
+    //////////////////////////////////
+    //////////////////////////////////
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
+    const showDatepicker = () => {
+        setDatePickerVisibility(true);
+    };
+    
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+    
+    const handleConfirm = (date) => {
+        setDob(date);
+        console.log("A date has been picked: ", date);
+        hideDatePicker();
+    };
+    //////////////////////////////////
+    //////////////////////////////////
+
     return (
         <StyledContainer>
             <StatusBar style="dark" />
@@ -69,16 +104,37 @@ const Signup = () => {
                             <MyTextInput 
                                 label="Date of Birth"
                                 icon="calendar"
-                                placeholder="DD-MM-YYYY"
+                                placeholder="MM-DD-YYYY"
                                 placeholderTextInput={darkLight}
                                 onChangeText={handleChange('dateOfBirth')}
                                 onBlur={handleBlur('dateOfBirth')}
-                                value={values.dateOfBirth}
+                                value={dob ? dob.toDateString() : ''}
+                                isDate={true}
+                                editable={false}
+                                onPress={showDatepicker}
                             />
+                            <MyTextInput 
+                                label="Date of Birth"
+                                icon="plus"
+                                placeholder="MM-DD-YYYY"
+                                placeholderTextInput={darkLight}
+                                onChangeText={handleChange('dateOfBirth')}
+                                onBlur={handleBlur('dateOfBirth')}
+                                value={dob ? dob.toDateString() : ''}
+                                isDate={true}
+                                editable={false}
+                                onPress={showDatepicker}
+                            />
+                                <DateTimePickerModal
+                                    isVisible={isDatePickerVisible}
+                                    // mode="date"
+                                    onConfirm={handleConfirm}
+                                    onCancel={hideDatePicker}
+                                />
                             <MyTextInput 
                                 label="Password"
                                 icon="lock"
-                                placeholder="* * * * *"
+                                placeholder="* * * * * * * *"
                                 placeholderTextInput={darkLight}
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
@@ -86,12 +142,12 @@ const Signup = () => {
                                 secureTextEntry={hidePassword}
                                 isPassword={true}
                                 hidePassword={hidePassword}
-                                sethidePassword={sethidePassword}
+                                setHidePassword={setHidePassword}
                             />
                             <MyTextInput 
                                 label="Confirm Password"
                                 icon="lock"
-                                placeholder="* * * * *"
+                                placeholder="* * * * * * * *"
                                 placeholderTextInput={darkLight}
                                 onChangeText={handleChange('confirmPassword')}
                                 onBlur={handleBlur('confirmPassword')}
@@ -99,7 +155,7 @@ const Signup = () => {
                                 secureTextEntry={hidePassword}
                                 isPassword={true}
                                 hidePassword={hidePassword}
-                                sethidePassword={sethidePassword}
+                                setHidePassword={setHidePassword}
                             />
                             <MsgBox>...</MsgBox>
                             <StyledButton onPress={handleSubmit}>
@@ -123,16 +179,23 @@ const Signup = () => {
     );
 }
 
-const MyTextInput = ({label, icon, isPassword, hidePassword, sethidePassword, ...props}) => {
+const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatepicker, value, ...props}) => {
     return (
         <View>
             <LeftIcon>
-                <Octicons name={icon} size={30} color={brand}  />
+                <Octicons name={icon} size={30} color={brand} />
             </LeftIcon>
             <StyledInputLabel>{label}</StyledInputLabel>
-            <StyledTextInput {... props} />
+            {!isDate && <StyledTextInput {...props} />}
+            {isDate && (
+                // <TouchableOpacity>
+                    <StyledButtonInput onPress={showDatepicker} {...props}>
+                        <StyledButtonTextInput {...props}>{value}</StyledButtonTextInput>
+                    </StyledButtonInput>
+                // </TouchableOpacity>
+            )}
             {isPassword && (
-                <RightIcon onPress={()=>sethidePassword(!hidePassword)}>
+                <RightIcon onPress={()=>setHidePassword(!hidePassword)}>
                     <Ionicons name={hidePassword ? "md-eye-off" : "md-eye"} size={30} color={darkLight} />
                 </RightIcon>
             )}

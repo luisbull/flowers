@@ -68,6 +68,28 @@ export const StyledTextInput = styled.TextInput`
     color: ${tertiary};
 `;
 
+// export const StyledButtonInput = styled.TextInput`
+export const StyledButtonInput = styled.TouchableOpacity`
+    background-color: ${secondary};
+    padding-top: 20px;
+    padding-left: 55px;
+    padding-right:55px;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 60px;
+    margin-vertical: 3px;
+    margin-bottom: 10px; 
+    color: ${tertiary};
+`;
+
+// export const StyledButtonTextInput = styled.TextInput`
+// export const StyledButtonTextInput = styled.TouchableOpacity`
+// background-color: ${green};
+export const StyledButtonTextInput = styled.Text`
+    font-size: 16px;
+    color: ${tertiary};
+`;
+
 export const StyledInputLabel = styled.Text`
     color: ${tertiary};
     font-size: 13px;
