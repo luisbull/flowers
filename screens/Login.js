@@ -30,10 +30,11 @@ import {
 } from "./../components/styles";
 import { View } from "react-native";
 
+// colors
 const { brand, darkLight, primary } = Colors;
 
 const Login = () => {
-    const [hidePassword, sethidePassword] = useState(true)
+    const [hidePassword, setHidePassword] = useState(true);
     return (
         <StyledContainer>
             <StatusBar style="dark" />
@@ -70,7 +71,7 @@ const Login = () => {
                                 secureTextEntry={hidePassword}
                                 isPassword={true}
                                 hidePassword={hidePassword}
-                                sethidePassword={sethidePassword}
+                                setHidePassword={setHidePassword}
                             />
                             <MsgBox>...</MsgBox>
                             <StyledButton onPress={handleSubmit}>
@@ -100,7 +101,7 @@ const Login = () => {
     );
 }
 
-const MyTextInput = ({label, icon, isPassword, hidePassword, sethidePassword, ...props}) => {
+const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
     return (
         <View>
             <LeftIcon>
@@ -109,7 +110,7 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, sethidePassword, ..
             <StyledInputLabel>{label}</StyledInputLabel>
             <StyledTextInput {... props} />
             {isPassword && (
-                <RightIcon onPress={()=>sethidePassword(!hidePassword)}>
+                <RightIcon onPress={()=>setHidePassword(!hidePassword)}>
                     <Ionicons name={hidePassword ? "md-eye-off" : "md-eye"} size={30} color={darkLight} />
                 </RightIcon>
             )}
