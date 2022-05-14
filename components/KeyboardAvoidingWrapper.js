@@ -1,17 +1,20 @@
 import React from 'react';
 
 // keyboardAvoidingView
-import { KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, Pressable, Keyboard, Platform } from 'react-native';
 
-const KeyboardAvoidingWrapper = ({children}) => {
+const KeyboardAvoidingWrapper = (props) => {
     return (
-      <KeyboardAvoidingView behavior={Platform.select({ android: 'height', ios: 'padding' })}
-      style={{ flex: 1 }} enabled>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <ScrollView>
-                {children}
-              </ScrollView>
-            </TouchableWithoutFeedback>
+      <KeyboardAvoidingView 
+          style={{ flex: 1, backgroundColor:'transparent'  }} enabled
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={20}
+      >
+        <ScrollView showsHorizontalScrollIndicator={false}>
+          <Pressable onPress={Keyboard.dismiss}>
+            {props.children}
+          </Pressable>
+        </ScrollView>
       </KeyboardAvoidingView>
     )
 }
