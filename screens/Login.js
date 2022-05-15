@@ -36,8 +36,23 @@ const { brand, darkLight, primary } = Colors;
 // KeyboardAvoidingWrapper
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
+// API clienr
+import axios from "axios";
+
 const Login = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+
+    const handleLogin = (credentials) => {
+        const url = '';
+
+        axios.post(url, credentials)
+            .then((response) => {
+                const result = response.data;
+                const {message, status, data} = result;
+            })
+            .catch(error => {console.log(error.JSON())})
+    }
+
     return (
         <KeyboardAvoidingWrapper>
             <StyledContainer>
@@ -114,7 +129,7 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ..
                 <Octicons name={icon} size={30} color={brand}  />
             </LeftIcon>
             <StyledInputLabel>{label}</StyledInputLabel>
-            <StyledTextInput {... props} />
+            <StyledTextInput {...props} />
             {isPassword && (
                 <RightIcon onPress={()=>setHidePassword(!hidePassword)}>
                     <Ionicons name={hidePassword ? "md-eye-off" : "md-eye"} size={30} color={darkLight} />
