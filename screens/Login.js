@@ -36,7 +36,7 @@ const { brand, darkLight, primary } = Colors;
 // KeyboardAvoidingWrapper
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
-// API clienr
+// API clien
 import axios from "axios";
 
 const Login = ({navigation}) => {
@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
 
     const handleLogin = (credentials, setSubmitting) => {
         handleMessage(null);
-        const url = '';
+        const url = ''; // env variable here
 
         axios
             .post(url, credentials)
@@ -63,7 +63,8 @@ const Login = ({navigation}) => {
                 setSubmitting(false);
             })
             .catch((error) => {
-                console.log(error.JSON());
+                // console.log(error.JSON());
+                console.log(error);
                 setSubmitting(false);
                 handleMessage('An error occurred. Check your network and try again.')
             })
