@@ -96,7 +96,27 @@ const Signup = ({navigation}) => {
                 setSubmitting(false);
             })
             .catch((error) => {
-                console.log(error.JSON());
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log('RESPONSE DATA ERROR:');
+                    console.log(error.response.data);
+                    console.log('RESPONSE STATUS ERROR:');
+                    console.log(error.response.status);
+                    console.log('RESPONSE HEADERS ERROR:');
+                    console.log(error.response.headers);
+                    } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log('REQUEST ERROR:');
+                    console.log(error.request);
+                    } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('ELSE ERROR:');
+                    console.log('Error', error.message);
+                    }
+                console.log(error.toJSON());
                 setSubmitting(false);
                 handleMessage('An error occurred. Check your network and try again.')
             })
