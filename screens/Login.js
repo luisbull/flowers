@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 // formik
@@ -39,10 +39,20 @@ import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 // API clien
 import axios from "axios";
 
+// AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// credential context
+import { CredentialsContext } from './../components/CredentialsContext';
+
+
 const Login = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
+
+    // context
+    const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
 
     const handleLogin = (credentials, setSubmitting) => {
         handleMessage(null);
@@ -59,7 +69,7 @@ const Login = ({navigation}) => {
                     handleMessage(message, status)
                 }
                 else {
-                    navigation.navigate('Welcome', { ...data[0] })
+                    persistLogin({ ...data[0] }, message, status)
                 }
                 setSubmitting(false);
             })
@@ -93,6 +103,18 @@ const Login = ({navigation}) => {
     const handleMessage = (message, type='FAILED') => {
         setMessage(message);
         setMessageType(type);
+    }
+
+    const persistLogin = (credentials, message, status) => {
+        AsyncStorage.setItem('flowerHouseCredentials', JSON.stringify(credentials))
+            .then(() => {
+                handleMessage(message, status);
+                setStoredCredentials(credentials);
+            })
+            .catch((error) => {
+                console.log(error);
+                handleMessage('Persisting login failed')
+            })
     }
 
     return (

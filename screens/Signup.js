@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 // formik
@@ -46,16 +46,26 @@ import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAt
 // API clien
 import axios from "axios";
 
+// AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// credential context
+import { CredentialsContext } from './../components/CredentialsContext';
+
+
 const Signup = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true)
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
 
+    
     // const [show, setShow] = useState(false);
-
+    
     // // actual date of birth to be sent
     const [dob, setDob] = useState();
-
+    
+    // context
+    const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
     //////////////////////////////////
     //////////////////////////////////
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -91,7 +101,7 @@ const Signup = ({navigation}) => {
                     handleMessage(message, status)
                 }
                 else {
-                    navigation.navigate('Welcome', { ...data })
+                    persistLogin({ ...data }, message, status)
                 }
                 setSubmitting(false);
             })
@@ -125,6 +135,18 @@ const Signup = ({navigation}) => {
     const handleMessage = (message, type='FAILED') => {
         setMessage(message);
         setMessageType(type);
+    }
+
+    const persistLogin = (credentials, message, status) => {
+        AsyncStorage.setItem('flowerHouseCredentials', JSON.stringify(credentials))
+            .then(() => {
+                handleMessage(message, status);
+                setStoredCredentials(credentials);
+            })
+            .catch((error) => {
+                console.log(error);
+                handleMessage('Persisting login failed')
+            })
     }
 
     return (

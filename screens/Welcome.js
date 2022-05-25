@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 import { 
@@ -14,8 +14,29 @@ import {
     Avatar
 } from "./../components/styles";
 
-const Welcome = ({navigation, route}) => {
-    const {name, email} = route.params;
+// AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// credential context
+import { CredentialsContext } from './../components/CredentialsContext';
+
+
+const Welcome = () => {
+
+    // context
+    const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
+    const {name, email} = storedCredentials;
+
+    const clearLogin= () => {
+        AsyncStorage.removeItem('flowerHouseCredentials')
+            .then(() =>{
+                setStoredCredentials("");
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     return (
         <>
             <StatusBar style="light" />
@@ -29,7 +50,7 @@ const Welcome = ({navigation, route}) => {
                     <StyledFormArea>
                         <Avatar resizeMode="cover" source={require('./../assets/img/Purple_Flower.png')}/>
                         <Line/>
-                        <StyledButton onPress={()=>{navigation.navigate('Login')}}>
+                        <StyledButton onPress={clearLogin}>
                             <ButtonText>
                                 Logout
                             </ButtonText>
