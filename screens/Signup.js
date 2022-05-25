@@ -79,7 +79,7 @@ const Signup = ({navigation}) => {
     // form handling
     const handleSignup = (credentials, setSubmitting) => {
         handleMessage(null);
-        const url = 'http://localhost:3000/user/signup';
+        const url = 'https://afternoon-brushlands-58181.herokuapp.com/user/signup';
 
         axios
             .post(url, credentials)

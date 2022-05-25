@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
 
     const handleLogin = (credentials, setSubmitting) => {
         handleMessage(null);
-        const url = 'http://localhost:3000/user/signin'; // env variable here
+        const url = 'https://afternoon-brushlands-58181.herokuapp.com/user/signin'; // env variable here
 
         axios
             .post(url, credentials)
