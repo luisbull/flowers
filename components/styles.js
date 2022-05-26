@@ -12,7 +12,9 @@ export const Colors = {
     darkLight: "#9CA3AF",
     brand: "#6D28D9",
     green: "#10B981",
-    red: "#EF4444"
+    red: "#EF4444",
+    gray: "#6B7280",
+    lightGreen: "rgba(16, 185, 129, 0.1)",
 }
 
 const {primary, secondary, tertiary, darkLight, brand, green, red} = Colors;
@@ -200,6 +202,53 @@ export const TextLink = styled.TouchableOpacity`
 
 export const TextLinkContent = styled.Text`
     color: ${brand};
-    font-size: 15px; 
+    font-size: 15px;
+
+    ${(props) => {
+        const { resendStatus } = props
+        if (resendStatus === 'Failed') {
+            return `color: ${Colors.red}`;
+        }
+        else if (resendStatus === 'Sent') {
+            return `color: ${Colors.green}`;
+        }
+    }}
 `;
 
+// verification components
+export const TopHalf = styled.View`
+    flex: 1;
+    justify-content: center;
+    padding: 20px;
+`;
+
+export const IconBg = styled.View`
+    width: 250px;
+    height: 250px;
+    background-color: ${Colors.lightGreen};
+    border-radius: 250px;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const BottonHalf = styled(TopHalf)`
+    justify-content: space-around;
+`;
+
+export const InfoText = styled.Text`
+    color: ${Colors.gray};
+    font-size: 15px;
+    text-align: center;
+`;
+
+export const EmphasizeText = styled.Text`
+    font-weight: bold;
+    font-style: italic;
+`;
+
+export const InlineGroup = styled.View`
+    flex-direction: row;
+    padding: 10px;
+    justify-content: center;
+    align-items: center
+`;

@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from "./../screens/Login";
 import Signup from "./../screens/Signup";
 import Welcome from "./../screens/Welcome";
+import Verification from './../screens/Verification';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,12 +35,13 @@ const RootStack = () => {
                     paddingLeft: 20
                 }
             }}
-            initialRouteName="Login"
+            initialRouteName="Verification"
           >
             {storedCredentials ? (
               <Stack.Screen options={{headerTintColor: primary}} name="Welcome" component={Welcome} /> 
             ) : (
               <>
+                <Stack.Screen name="Verification" component={Verification} />
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
               </> 
